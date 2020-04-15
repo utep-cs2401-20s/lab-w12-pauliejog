@@ -1,97 +1,88 @@
+/*
+ * Modified by: Paulie Jo Gonzalez
+ * Lab w-12
+ */
 class myBinarySearchTreeNode{
   int myValue;
   myBinarySearchTreeNode left;
   myBinarySearchTreeNode right;
     
-  myBinarySearchTreeNode(int inValue){
+  myBinarySearchTreeNode(int inValue){//constructor create new node with empty child pointers
     myValue = inValue;
-    // created a new node with empty child pointers
-
   }
   
-  myBinarySearchTreeNode(int[] A){
-    myValue = A[0];
+  myBinarySearchTreeNode(int[] A){//constructor build new Binary Search Tree rooted at the element in the given array.
+    myValue = A[0];//root of tree
     for(int i = 1; i < A.length; i++)
-      this.insert(A[i]);
-    // creates a new Binary Search Tree rooted at the first value in the array
-    /// by inserting elements into the tree in the order they are given in A.
+      this.insert(A[i]);//builds tree
   }
   
   public void insert(int inValue){
-    if(inValue > myValue) {
+    // This method takes a new integer as input and decides
+    // if it should be place:
+    //    * as the left child,
+    //    * as the right child,
+    //    * in the left subtree,
+    //    * or in the right subtree.
+    // If the value already exists in the tree, no action is taken.
+    if(inValue > myValue) {//look at the right half, recursively traverse or add new node
       if(right == null) {
         right = new myBinarySearchTreeNode(inValue);
       }
       else
         right.insert(inValue);
     }
-    if(inValue < myValue) {
+    if(inValue < myValue) {//look at the left half, recursively traverse or add new node
       if(left == null) {
         left = new myBinarySearchTreeNode(inValue);
       }
       else
         left.insert(inValue);
     }
-    if(inValue == myValue)
+    if(inValue == myValue)//error message, do not add duplicates
       System.out.println("error, value already exists in the tree");
-    // This method takes a new integer as input and decides 
-    // if it should be place: 
-    //    * as the left child,
-    //    * as the right child, 
-    //    * in the left subtree,
-    //    * or in the right subtree.
-    // If the value already exists in the tree, no action is taken. 
-    
-  }
+  }//end insert
   
-  public int height(){
+  public int height(){//recursive method to calculate the height of the BST
     int leftH = 0;
     int rightH = 0;
-    if(left != null)
+    if(left != null)//left half of BST
       leftH = 1 + left.height();
-    if(right != null)
+    if(right != null)//right half of BST
       rightH = 1 + right.height();
-    return Math.max(leftH,rightH);
-
-
-     // This method recursively calculates the height of the entire (sub)tree.
-     // This method will take O(n) time
-     //return leftH;
-  }
+    return Math.max(leftH,rightH);//return the larger of the two values found
+  }//end height
   
-  public int depth(int search){
-    if(search == this.myValue)
+  public int depth(int search){//recursive method to calculate the depth of a given search value
+    // If the given value is not in the tree, this method returns -1.
+    // Note that if the tree is a proper BST, this method should complete in O(log n) time.
+    // Additionally, remember that the depth is the number of nodes on the path from a node to the root
+    // (i.e. the number of the recursive calls).
+
+    if(search == this.myValue)//search value is the root
       return 0;
     if(search < this.myValue) {
-      if(left != null)
-        return 1 + left.depth(search);
+      if(left != null)//traverse left half for search value
+        return 1 + left.depth(search);//count recursive calls
       else
-        return -1;
+        return -1;//search value not found
     }
-    else {
-      if (right != null)
+    else {//right half traversal
+      if (right != null)//traverse right half
         return 1 + right.depth(search);
       else
-        return -1;
+        return -1;//value not found
     }
+  }//end depth
 
-     // This method recursively calculates the depth of a given search value. 
-     // If the given value is not in the tree, this method returns -1. 
-     // Note that if the tree is a proper BST, this method should complete in O(log n) time.
-     // Additionally, remember that the depth is the number of nodes on the path from a node to the root 
-     // (i.e. the number of the recursie calls).
-
-  }
-  public int size(){
-    int sum = 1;
+  public int size(){//recursive method to calculate the size of the BST
+    int sum = 1;//if there is only one node
     if(left != null)
-      sum += left.size();
+      sum += left.size();//counts recursive calls for left half
     if(right != null)
-      sum += right.size();
-    return sum;
-    // This method recursively calculates the number of nodes in the (sub)tree.
+      sum += right.size();//counts recursive calls for right half
+    return sum;//size of BST
   }
-
 
   // Utility function included so you can debug your solution. 
   public void print() { print(""); }
@@ -102,5 +93,4 @@ class myBinarySearchTreeNode{
     if(left != null) left.print(prefix + "\u251C ");
     if(right != null) right.print(prefix + "\u2514 ");
   }
-  
-} 
+}//end class
