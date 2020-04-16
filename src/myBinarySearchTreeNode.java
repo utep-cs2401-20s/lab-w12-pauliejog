@@ -59,20 +59,28 @@ class myBinarySearchTreeNode{
     // Additionally, remember that the depth is the number of nodes on the path from a node to the root
     // (i.e. the number of the recursive calls).
 
-    if(search == this.myValue)//search value is the root
+    if(search < myValue) {//left sub-tree
+      if(left != null) {
+        int LD = left.depth(search);
+        if(LD == -1)////in case search value is not found
+          return -1;
+        else
+          return 1 + left.depth(search);
+      }
+    }
+    else if(search > myValue) {//right sub-tree traversal
+      if(right != null) {
+        int RD = right.depth(search);
+        if(RD == -1)////in case search value is not found the ones will not stack up
+          return -1;
+        else
+          return 1 + right.depth(search);
+      }
+    }
+    else {//value is found
       return 0;
-    if(search < this.myValue) {
-      if(left != null)//traverse left half for search value
-        return 1 + left.depth(search);//count recursive calls
-      else
-        return -1;//search value not found
     }
-    else {//right half traversal
-      if (right != null)//traverse right half
-        return 1 + right.depth(search);
-      else
-        return -1;//value not found
-    }
+    return -1;//value is not found
   }//end depth
 
   public int size(){//recursive method to calculate the size of the BST
